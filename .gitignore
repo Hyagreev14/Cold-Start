@@ -1,0 +1,37 @@
+# Godot 4+ generated files
+.godot/
+
+# Godot import/cache data
+.import/
+
+# Exported builds
+/export/
+/build/
+*.exe
+*.pck
+*.zip
+
+# IDE/editor files
+.vscode/
+.idea/
+*.sln
+*.csproj
+*.user
+*.userprefs
+
+# OS files
+.DS_Store
+Thumbs.db
+Desktop.ini
+
+# Logs and temporary files
+*.log
+*.tmp
+*.temp
+
+# Blender autosaves / backups
+*.blend1
+*.blend2
+
+# Godot crash dumps
+*.dmp
