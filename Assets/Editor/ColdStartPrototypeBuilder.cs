@@ -31,8 +31,8 @@ public static class ColdStartPrototypeBuilder
         Camera camera = cameraObject.AddComponent<Camera>();
         camera.tag = "MainCamera";
         cameraObject.transform.SetParent(player.transform);
-        cameraObject.transform.localPosition = new Vector3(0f, 1.65f, -3.5f);
-        cameraObject.transform.localRotation = Quaternion.Euler(12f, 0f, 0f);
+        cameraObject.transform.localPosition = new Vector3(0f, 1.65f, 0f);
+        cameraObject.transform.localRotation = Quaternion.identity;
 
         Light lightObject = new GameObject("Sun").AddComponent<Light>();
         lightObject.type = LightType.Directional;
@@ -50,7 +50,7 @@ public static class ColdStartPrototypeBuilder
         body.name = "Player Visual";
         body.transform.SetParent(player.transform);
         body.transform.localPosition = new Vector3(0f, 0.9f, 0f);
-        body.transform.localRotation = Quaternion.identity;
+        body.transform.localRotation = Quaternion.identity;\n\n        MeshRenderer renderer = body.GetComponent<MeshRenderer>();\n        if (renderer != null)\n            renderer.enabled = false;
         body.transform.localScale = new Vector3(0.7f, 0.55f, 0.7f);
 
         Collider bodyCollider = body.GetComponent<Collider>();
