@@ -364,16 +364,27 @@ public static class ColdStartPrototypeBuilder
 
     private static Material CreateMaterial(string materialName, Color color)
     {
+        // Support both URP and the built-in renderer instead of assuming a specific pipeline shader.
         Shader shader = Shader.Find("Universal Render Pipeline/Lit");
         if (shader == null)
+            shader = Shader.Find("Standard");
+        if (shader == null)
+            shader = Shader.Find("Diffuse");
+
+        if (shader == null)
         {
-            Debug.LogWarning($"Cold Start: URP/Lit shader was not found while creating {materialName}.");
+            Debug.LogError($"Cold Start: No compatible shader was found while creating {materialName}. Check the project's render pipeline.");
             return null;
         }
 
         Material material = new Material(shader);
         material.name = materialName;
-        material.color = color;
+
+        if (material.HasProperty("_BaseColor"))
+            material.SetColor("_BaseColor", color);
+        else if (material.HasProperty("_Color"))
+            material.SetColor("_Color", color);
+
         return material;
     }
 
