@@ -71,6 +71,26 @@ public static class ColdStartPrototypeBuilder
         );
 
         CreateStairs();
+        CreateWallMaterial();
+    }
+
+    private static void CreateWallMaterial()
+    {
+        Material wallMaterial = new Material(Shader.Find("Universal Render Pipeline/Lit"));
+        wallMaterial.name = "HQ Wall Paint";
+        wallMaterial.color = new Color(0.72f, 0.72f, 0.68f);
+
+        foreach (GameObject wall in new[]
+        {
+            GameObject.Find("North Wall"),
+            GameObject.Find("South Wall"),
+            GameObject.Find("East Wall"),
+            GameObject.Find("West Wall")
+        })
+        {
+            if (wall != null)
+                wall.GetComponent<Renderer>().sharedMaterial = wallMaterial;
+        }
     }
 
     private static void CreateSecondFloorWithStairOpening()
