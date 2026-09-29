@@ -108,7 +108,7 @@ public class PlayerController : MonoBehaviour
         Vector3 inputDirection = transform.right * input.x + transform.forward * input.z;
 
         bool sprinting = Keyboard.current != null &&
-                         Keyboard.current.leftShiftKey.isPressed &&
+                         Keyboard.current.leftCtrlKey.isPressed &&
                          !isCrouching;
 
         float targetSpeed = isCrouching
@@ -148,8 +148,7 @@ public class PlayerController : MonoBehaviour
         if (Keyboard.current == null)
             return;
 
-        if (Keyboard.current.leftCtrlKey.wasPressedThisFrame ||
-            Keyboard.current.cKey.wasPressedThisFrame)
+        if (Keyboard.current.leftShiftKey.wasPressedThisFrame)
         {
             isCrouching = !isCrouching;
         }
