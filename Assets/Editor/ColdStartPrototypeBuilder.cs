@@ -336,7 +336,7 @@ public static class ColdStartPrototypeBuilder
     private static void CreateWornOutBulb()
     {
         GameObject fixture = new GameObject("Worn-Out Ceiling Bulb");
-        fixture.transform.position = new Vector3(0f, 3.85f, 0f);
+        fixture.transform.position = new Vector3(0f, 3.72f, 0f);
 
         GameObject bulb = GameObject.CreatePrimitive(PrimitiveType.Sphere);
         bulb.name = "Old Bulb";
@@ -349,15 +349,19 @@ public static class ColdStartPrototypeBuilder
         {
             bulbMaterial.EnableKeyword("_EMISSION");
             bulbMaterial.SetColor("_EmissionColor", new Color(0.95f, 0.65f, 0.22f));
-            bulbMaterial.SetFloat("_EmissionIntensity", 2.2f);
+            if (bulbMaterial.HasProperty("_EmissionIntensity"))
+                bulbMaterial.SetFloat("_EmissionIntensity", 2.2f);
+            if (bulbMaterial.HasProperty("_Emission"))
+                bulbMaterial.SetColor("_Emission", new Color(0.95f, 0.65f, 0.22f));
             bulb.GetComponent<Renderer>().sharedMaterial = bulbMaterial;
         }
 
         Light bulbLight = fixture.AddComponent<Light>();
         bulbLight.type = LightType.Point;
         bulbLight.color = new Color(1f, 0.72f, 0.38f);
-        bulbLight.range = 11f;
-        bulbLight.intensity = 3.5f;
+        bulbLight.range = 7f;
+        bulbLight.intensity = 2.4f;
+        bulbLight.shadows = LightShadows.Soft;
 
         fixture.AddComponent<WornOutBulb>();
     }
