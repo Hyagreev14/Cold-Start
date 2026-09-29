@@ -80,27 +80,40 @@ public static class ColdStartPrototypeBuilder
         float openingCenterX = -5.5f;
         float openingCenterZ = -1.0f;
 
-        float sideWidth = (FloorWidth - openingWidth) * 0.5f;
-        float frontDepth = (FloorDepth - openingDepth) * 0.5f;
+        float buildingMinX = -FloorWidth * 0.5f;
+        float buildingMaxX = FloorWidth * 0.5f;
+        float openingMinX = openingCenterX - openingWidth * 0.5f;
+        float openingMaxX = openingCenterX + openingWidth * 0.5f;
+
+        float leftWidth = openingMinX - buildingMinX;
+        float rightWidth = buildingMaxX - openingMaxX;
+
+        float buildingMinZ = -FloorDepth * 0.5f;
+        float buildingMaxZ = FloorDepth * 0.5f;
+        float openingMinZ = openingCenterZ - openingDepth * 0.5f;
+        float openingMaxZ = openingCenterZ + openingDepth * 0.5f;
+
+        float frontDepth = buildingMaxZ - openingMaxZ;
+        float backDepth = openingMinZ - buildingMinZ;
 
         CreateCube(
             "Second Floor West Section",
             new Vector3(
-                -FloorWidth * 0.5f + sideWidth * 0.5f,
+                buildingMinX + leftWidth * 0.5f,
                 FloorHeight,
                 0f
             ),
-            new Vector3(sideWidth, FloorThickness, FloorDepth)
+            new Vector3(leftWidth, FloorThickness, FloorDepth)
         );
 
         CreateCube(
             "Second Floor East Section",
             new Vector3(
-                FloorWidth * 0.5f - sideWidth * 0.5f,
+                openingMaxX + rightWidth * 0.5f,
                 FloorHeight,
                 0f
             ),
-            new Vector3(sideWidth, FloorThickness, FloorDepth)
+            new Vector3(rightWidth, FloorThickness, FloorDepth)
         );
 
         CreateCube(
@@ -108,7 +121,7 @@ public static class ColdStartPrototypeBuilder
             new Vector3(
                 openingCenterX,
                 FloorHeight,
-                FloorDepth * 0.5f - frontDepth * 0.5f
+                openingMaxZ + frontDepth * 0.5f
             ),
             new Vector3(openingWidth, FloorThickness, frontDepth)
         );
@@ -118,7 +131,7 @@ public static class ColdStartPrototypeBuilder
             new Vector3(
                 openingCenterX,
                 FloorHeight,
-                -FloorDepth * 0.5f + frontDepth * 0.5f
+                buildingMinZ + backDepth * 0.5f
             ),
             new Vector3(openingWidth, FloorThickness, frontDepth)
         );
