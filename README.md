@@ -49,7 +49,7 @@ The abandoned facility is the starting point, not the entire game. As the compan
 
 ## Technology
 
-- Engine: Godot 4.x
+- Engine: Unity 6 (6000.0.62f1)
 - Genre: 3D simulation / management / exploration
 - Camera: First person + third person
 - Target platform: PC
@@ -62,4 +62,4 @@ More complex company and infrastructure systems will be introduced incrementally
 
 ## Repository
 
-This repository contains the Godot project and the source files used to develop Cold Start.
+This repository contains the Unity project and source files used to develop Cold Start.
