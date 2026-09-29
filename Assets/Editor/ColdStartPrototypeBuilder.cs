@@ -38,7 +38,7 @@ public static class ColdStartPrototypeBuilder
 
         Material wallMaterial = CreateMaterial(
             "Faded Wall Paint",
-            new Color(0.58f, 0.59f, 0.55f)
+            new Color(0.66f, 0.62f, 0.47f)
         );
 
         Material roofMaterial = CreateMaterial(
@@ -189,6 +189,11 @@ public static class ColdStartPrototypeBuilder
             new Color(0.20f, 0.19f, 0.16f)
         );
 
+        Material debrisMaterial = CreateMaterial(
+            "Debris Metal",
+            new Color(0.28f, 0.27f, 0.24f)
+        );
+
         // Large, subtle floor stains make the facility look neglected.
         CreateCube(
             "Ground Dirt Patch 01",
@@ -273,28 +278,28 @@ public static class ColdStartPrototypeBuilder
             "Debris 01",
             new Vector3(2.2f, 0.28f, 3.0f),
             new Vector3(0.45f, 0.28f, 0.35f),
-            grimeMaterial
+            debrisMaterial
         );
 
         CreateCube(
             "Debris 02",
             new Vector3(2.7f, 0.18f, 3.25f),
             new Vector3(0.3f, 0.18f, 0.55f),
-            grimeMaterial
+            debrisMaterial
         );
 
         CreateCube(
             "Debris 03",
             new Vector3(-2.2f, 0.22f, 4.1f),
             new Vector3(0.55f, 0.22f, 0.3f),
-            grimeMaterial
+            debrisMaterial
         );
 
         CreateCube(
             "Debris 04",
             new Vector3(5.4f, FloorHeight + 0.2f, 3.1f),
             new Vector3(0.35f, 0.2f, 0.5f),
-            grimeMaterial
+            debrisMaterial
         );
     }
 
@@ -326,6 +331,10 @@ public static class ColdStartPrototypeBuilder
         lightObject.type = LightType.Directional;
         lightObject.intensity = 0.65f;
         lightObject.transform.rotation = Quaternion.Euler(50f, -30f, 0f);
+
+        RenderSettings.ambientMode = UnityEngine.Rendering.AmbientMode.Flat;
+        RenderSettings.ambientLight = new Color(0.20f, 0.19f, 0.16f);
+        RenderSettings.ambientIntensity = 0.75f;
     }
 
     private static Material CreateMaterial(string materialName, Color color)
