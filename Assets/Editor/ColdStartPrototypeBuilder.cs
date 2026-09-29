@@ -20,6 +20,7 @@ public static class ColdStartPrototypeBuilder
         CreateAbandonedDetails();
         CreatePlayer();
         CreateLighting();
+        CreateWornOutBulb();
 
         EditorSceneManager.SaveScene(scene, "Assets/Scenes/PlayerTest.unity");
 
@@ -28,7 +29,6 @@ public static class ColdStartPrototypeBuilder
 
         Debug.Log("Cold Start abandoned HQ blockout created. 2 above-ground floors with stairs.");
     }
-
     private static void CreateBuildingShell()
     {
         Material floorMaterial = CreateMaterial(
@@ -327,14 +327,39 @@ public static class ColdStartPrototypeBuilder
 
     private static void CreateLighting()
     {
-        Light lightObject = new GameObject("Sun").AddComponent<Light>();
-        lightObject.type = LightType.Directional;
-        lightObject.intensity = 0.65f;
-        lightObject.transform.rotation = Quaternion.Euler(50f, -30f, 0f);
-
+        // No default directional "sun" light. The abandoned HQ is lit by its failing ceiling bulb.
         RenderSettings.ambientMode = UnityEngine.Rendering.AmbientMode.Flat;
-        RenderSettings.ambientLight = new Color(0.20f, 0.19f, 0.16f);
-        RenderSettings.ambientIntensity = 0.75f;
+        RenderSettings.ambientLight = new Color(0.055f, 0.052f, 0.045f);
+        RenderSettings.ambientIntensity = 0.35f;
+    }
+
+    private static void CreateWornOutBulb()
+    {
+        GameObject fixture = new GameObject("Worn-Out Ceiling Bulb");
+        fixture.transform.position = new Vector3(0f, 3.85f, 0f);
+
+        GameObject bulb = GameObject.CreatePrimitive(PrimitiveType.Sphere);
+        bulb.name = "Old Bulb";
+        bulb.transform.SetParent(fixture.transform);
+        bulb.transform.localPosition = Vector3.zero;
+        bulb.transform.localScale = Vector3.one * 0.18f;
+
+        Material bulbMaterial = CreateMaterial("Aged Bulb Glass", new Color(0.72f, 0.62f, 0.38f));
+        if (bulbMaterial != null)
+        {
+            bulbMaterial.EnableKeyword("_EMISSION");
+            bulbMaterial.SetColor("_EmissionColor", new Color(0.95f, 0.65f, 0.22f));
+            bulbMaterial.SetFloat("_EmissionIntensity", 2.2f);
+            bulb.GetComponent<Renderer>().sharedMaterial = bulbMaterial;
+        }
+
+        Light bulbLight = fixture.AddComponent<Light>();
+        bulbLight.type = LightType.Point;
+        bulbLight.color = new Color(1f, 0.72f, 0.38f);
+        bulbLight.range = 11f;
+        bulbLight.intensity = 3.5f;
+
+        fixture.AddComponent<WornOutBulb>();
     }
 
     private static Material CreateMaterial(string materialName, Color color)
