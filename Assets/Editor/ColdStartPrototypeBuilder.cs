@@ -25,6 +25,7 @@ public static class ColdStartPrototypeBuilder
         controller.slopeLimit = 45f;
 
         player.AddComponent<PlayerController>();
+        CreateVisiblePlayerBody(player);
 
         GameObject cameraObject = new GameObject("Player Camera");
         Camera camera = cameraObject.AddComponent<Camera>();
@@ -41,5 +42,19 @@ public static class ColdStartPrototypeBuilder
         Selection.activeGameObject = player;
 
         Debug.Log("Cold Start player test scene created. Press Play and use WASD, Shift, and Space.");
+    }
+
+    private static void CreateVisiblePlayerBody(GameObject player)
+    {
+        GameObject body = GameObject.CreatePrimitive(PrimitiveType.Capsule);
+        body.name = "Player Visual";
+        body.transform.SetParent(player.transform);
+        body.transform.localPosition = new Vector3(0f, 0.9f, 0f);
+        body.transform.localRotation = Quaternion.identity;
+        body.transform.localScale = new Vector3(0.7f, 0.55f, 0.7f);
+
+        Collider bodyCollider = body.GetComponent<Collider>();
+        if (bodyCollider != null)
+            Object.DestroyImmediate(bodyCollider);
     }
 }
