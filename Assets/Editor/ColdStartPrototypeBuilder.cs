@@ -71,34 +71,51 @@ public static class ColdStartPrototypeBuilder
         );
 
         CreateStairs();
-        CreateWallMaterial();
+        PaintAllWalls();
     }
 
-    private static void CreateWallMaterial()
+    private static void PaintAllWalls()
     {
-        Material wallMaterial = new Material(Shader.Find("Universal Render Pipeline/Lit"));
+        Shader shader = Shader.Find("Universal Render Pipeline/Lit");
+        if (shader == null)
+        {
+            Debug.LogWarning("Cold Start: URP/Lit shader was not found, so wall paint could not be applied.");
+            return;
+        }
+
+        Material wallMaterial = new Material(shader);
         wallMaterial.name = "HQ Wall Paint";
         wallMaterial.color = new Color(0.72f, 0.72f, 0.68f);
 
-        foreach (GameObject wall in new[]
+        string[] wallNames =
         {
-            GameObject.Find("North Wall"),
-            GameObject.Find("South Wall"),
-            GameObject.Find("East Wall"),
-            GameObject.Find("West Wall")
-        })
+            "North Wall",
+            "South Wall",
+            "East Wall",
+            "West Wall"
+        };
+
+        foreach (string wallName in wallNames)
         {
-            if (wall != null)
-                wall.GetComponent<Renderer>().sharedMaterial = wallMaterial;
+            GameObject wall = GameObject.Find(wallName);
+            if (wall == null)
+            {
+                Debug.LogWarning($"Cold Start: Could not find {wallName} while applying wall paint.");
+                continue;
+            }
+
+            Renderer renderer = wall.GetComponent<Renderer>();
+            if (renderer != null)
+                renderer.material = wallMaterial;
         }
     }
 
     private static void CreateSecondFloorWithStairOpening()
     {
-        float openingWidth = 3.2f;
-        float openingDepth = 7.5f;
-        float openingCenterX = -5.5f;
-        float openingCenterZ = -1.0f;
+        const float openingWidth = 3.2f;
+        const float openingDepth = 7.0f;
+        const float openingCenterX = -5.5f;
+        const float openingCenterZ = -1.25f;
 
         float buildingMinX = -FloorWidth * 0.5f;
         float buildingMaxX = FloorWidth * 0.5f;
@@ -153,7 +170,7 @@ public static class ColdStartPrototypeBuilder
                 FloorHeight,
                 buildingMinZ + backDepth * 0.5f
             ),
-            new Vector3(openingWidth, FloorThickness, frontDepth)
+            new Vector3(openingWidth, FloorThickness, backDepth)
         );
     }
 
