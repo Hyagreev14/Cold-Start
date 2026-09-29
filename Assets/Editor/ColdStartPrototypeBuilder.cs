@@ -36,11 +36,7 @@ public static class ColdStartPrototypeBuilder
             new Vector3(FloorWidth, FloorThickness, FloorDepth)
         );
 
-        CreateCube(
-            "Second Floor",
-            new Vector3(0f, FloorHeight, 0f),
-            new Vector3(FloorWidth, FloorThickness, FloorDepth)
-        );
+        CreateSecondFloorWithStairOpening();
 
         CreateCube(
             "Roof",
@@ -75,6 +71,57 @@ public static class ColdStartPrototypeBuilder
         );
 
         CreateStairs();
+    }
+
+    private static void CreateSecondFloorWithStairOpening()
+    {
+        float openingWidth = 3.2f;
+        float openingDepth = 7.5f;
+        float openingCenterX = -5.5f;
+        float openingCenterZ = -1.0f;
+
+        float sideWidth = (FloorWidth - openingWidth) * 0.5f;
+        float frontDepth = (FloorDepth - openingDepth) * 0.5f;
+
+        CreateCube(
+            "Second Floor West Section",
+            new Vector3(
+                -FloorWidth * 0.5f + sideWidth * 0.5f,
+                FloorHeight,
+                0f
+            ),
+            new Vector3(sideWidth, FloorThickness, FloorDepth)
+        );
+
+        CreateCube(
+            "Second Floor East Section",
+            new Vector3(
+                FloorWidth * 0.5f - sideWidth * 0.5f,
+                FloorHeight,
+                0f
+            ),
+            new Vector3(sideWidth, FloorThickness, FloorDepth)
+        );
+
+        CreateCube(
+            "Second Floor North Section",
+            new Vector3(
+                openingCenterX,
+                FloorHeight,
+                FloorDepth * 0.5f - frontDepth * 0.5f
+            ),
+            new Vector3(openingWidth, FloorThickness, frontDepth)
+        );
+
+        CreateCube(
+            "Second Floor South Section",
+            new Vector3(
+                openingCenterX,
+                FloorHeight,
+                -FloorDepth * 0.5f + frontDepth * 0.5f
+            ),
+            new Vector3(openingWidth, FloorThickness, frontDepth)
+        );
     }
 
     private static void CreateStairs()
